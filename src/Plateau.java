@@ -1,26 +1,27 @@
 public class Plateau {
-	private static final int COTE = 8;
-	private Case[][] tabCase;
+	public static final int COTE = 8;
+	private static Case[][] tabCase;
 	
 	public Plateau() {
 		tabCase = new Case[COTE][COTE];
 		for(int i = 0; i < COTE; i++) {
 			for(int j=0; j < COTE; j++) {
-				tabCase[i][j] = new Case(i, j, initPlateau(i,j));
+				tabCase[i][j] = new Case(i, j, _initPlateau(i,j));
 				
 			}
 		}
 	}
-	
-	public Piece initPlateau(int x, int y) {
+
+	//Instancie et retourne la piece devant etre sur la case (x,y) au debut du jeu
+	public Piece _initPlateau(int x, int y) {
 		Piece piece = null;
-		int coordonnees = x * COTE + y;
+		int coordonnees = y * COTE + x;
 		switch(coordonnees){
 			case 0 : return new Tour(x,y,0); 
 			case 1 : return new Cavalier(x,y,0);
 			case 2 : return new Fou(x,y,0);
-			case 3 : return new Dame(x,y,0);
-			case 4 : return new Roi(x,y,0);
+			case 4 : return new Dame(x,y,0);
+			case 3 : return new Roi(x,y,0);
 			case 5 : return new Fou(x,y,0);
 			case 6 : return new Cavalier(x,y,0);
 			case 7 : return new Tour(x,y,0);
@@ -36,11 +37,20 @@ public class Plateau {
 			case 61 : return new Fou(x,y,1);
 			case 62 : return new Cavalier(x,y,1);
 			case 63 : return new Tour(x,y,1);
-				
 		}
 		
 		
 		
 		return piece;
+	}
+
+	//Renvoie la piece selectionnée par le clique de la souris (ou null si pas de piece)
+	public Piece selectionPiece(int x, int y){
+		return tabCase[x][y].getPiece();
+	}
+
+	public void deplacerDonnee(int x, int y, int destX, int destY, Piece piece){
+		tabCase[x][y].setPiece(null);
+		tabCase[destX][destY].setPiece(piece);
 	}
 }

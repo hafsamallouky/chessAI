@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author hmallouk
- *
- */
-module Echecs {
-}
