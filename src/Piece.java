@@ -29,5 +29,68 @@ public class Piece {
 			return true;
 		}
 	}
+
+	public boolean trajectoireOccupee(int y, int x, int destY, int destX){
+		//deplacement en ligne droite
+		//N, S, E, W
+		if(y == destY){
+			if(x < destX){
+				for(int i = destX; i>x; i--){
+					if(Plateau.tabCase[y][i].getPiece() != null) {
+						return true;
+					}
+				}
+			}else if(x > destX){
+				for(int i = destX; i<x; i++){
+					if(Plateau.tabCase[y][i].getPiece() != null) {
+						return true;
+					}
+				}
+			}
+		}else if(x == destX){
+			if(y < destY){
+				for(int i = destY; i>y; i--){
+					if(Plateau.tabCase[i][x].getPiece() != null) {
+						return true;
+					}
+				}
+			}else if(y < destY){
+				for(int i = destY; i<y; i++){
+					if(Plateau.tabCase[i][x].getPiece() != null) {
+						return true;
+					}
+				}
+			}
+		}
+
+		//deplacement en diagonal
+		//NW, SW, SE, NE
+		if(destX > x && destY > y){
+			for(int cpt = 1; cpt < (destX-x); cpt ++){
+				if(Plateau.tabCase[y+cpt][x+cpt].getPiece() != null){
+					return true;
+				}
+			}
+		}else if(destX > x && destY < y){
+			for(int cpt = 1; cpt < (destX-x); cpt ++){
+				if(Plateau.tabCase[y-cpt][x+cpt].getPiece() != null){
+					return true;
+				}
+			}
+		}else if(destX < x && destY > y){
+			for(int cpt = 1; cpt < (x-destX); cpt ++){
+				if(Plateau.tabCase[y+cpt][x-cpt].getPiece() != null){
+					return true;
+				}
+			}
+		}else if(destX < x && destY < y){
+			for(int cpt = 1; cpt < (x-destX); cpt ++){
+				if(Plateau.tabCase[y-cpt][x-cpt].getPiece() != null){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 }

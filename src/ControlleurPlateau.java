@@ -28,6 +28,7 @@ public class ControlleurPlateau implements Initializable {
 		selection = null;
 
 		root.setOnMouseClicked(event -> {
+			//System.out.println("x : " + (int)event.getX()/64 + " y :" + (int)event.getY()/64);
 			click(event.getX(), event.getY());
 		});
 
