@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Plateau {
 	public static final int COTE = 8;
-	private static Case[][] tabCase;
+	public static Case[][] tabCase;
 	public static ArrayList<Pair<Integer, Integer>> liste;
 	
 	public Plateau() {
@@ -51,7 +51,9 @@ public class Plateau {
 	//Renvoie la piece selectionnée par le clique de la souris (ou null si pas de piece)
 	public Piece selectionPiece(int x, int y){
 		Piece piece = tabCase[x][y].getPiece();
-		liste = piece.deplacementPossible();
+		if(piece != null) {
+			liste = piece.deplacementPossible();
+		}
 		return piece;
 	}
 

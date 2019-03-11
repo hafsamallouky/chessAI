@@ -1,3 +1,6 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 public class Pion extends Piece{
 
@@ -37,6 +40,23 @@ public class Pion extends Piece{
 			}
 
 		}
+	}
+
+	public ArrayList<Pair<Integer, Integer>> deplacementPossible() {
+		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				//Cas du joueur blanc (les pions vont vers le bas)
+				if((joueur == 0 && i == x && ( j == y+1 || (j == y+2 && y == 1)))&& !caseOccupee(i,j,joueur)){
+					liste.add(new Pair(i,j));
+				}
+				//Cas du joueur noir (les pions vont vers le haut)
+				if((joueur == 1 && i == x && ( j == y-1 || (j == y-2 && y == 6)))&& !caseOccupee(i,j,joueur)){
+					liste.add(new Pair(i,j));
+				}
+			}
+		}
+		return liste;
 	}
 
 }

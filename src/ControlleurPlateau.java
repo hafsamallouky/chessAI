@@ -6,6 +6,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -60,7 +61,6 @@ public class ControlleurPlateau implements Initializable {
 			tabChemin[x][y] = new Rectangle(x*64, y*64, 64,64);
 			tabChemin[x][y].setFill(new ImagePattern(new Image("jaune.png")));
 			root.getChildren().add(tabChemin[x][y]);
-			System.out.println(liste.get(i));
 		}
 	}
 
@@ -68,12 +68,26 @@ public class ControlleurPlateau implements Initializable {
 		root.getChildren().remove(tabPiece[x][y]);
 	}
 
+	public void retirerChemin(){
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if(tabChemin[i][j] != null){
+					root.getChildren().remove(tabChemin[i][j]);
+				}
+			}
+		}
+	}
+
 	public void click(double x, double y){
 		if(selection == null){
 			selection = Jeu.plateau.selectionPiece((int)(x/64), (int)(y/64));
-			ajouterChemin(Plateau.liste);
+			if(selection != null) {
+				ajouterChemin(Plateau.liste);
+			}
 		}else{
 			selection.deplacement((int)(x/64), (int)(y/64));
+			retirerChemin();
+			Plateau.liste = null;
 			selection = null;
 		}
 	}

@@ -1,3 +1,6 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 public class Roi extends Piece{
 
@@ -21,6 +24,18 @@ public class Roi extends Piece{
 		}else{
 			System.out.println("Déplacement impossible");
 		}
+	}
+
+	public ArrayList<Pair<Integer, Integer>> deplacementPossible() {
+		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if(Math.abs(i  - x) <= 1 && Math.abs(j - y) <= 1 && !caseOccupee(i,j,joueur)){
+					liste.add(new Pair(i,j));
+				}
+			}
+		}
+		return liste;
 	}
 
 }

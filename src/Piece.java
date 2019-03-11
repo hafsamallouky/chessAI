@@ -21,5 +21,13 @@ public class Piece {
 		System.out.println("Erreur");
 		return null;
 	}
+
+	public boolean caseOccupee(int x, int y, int joueur){
+		if(Plateau.tabCase[x][y].getPiece() == null){
+			return false;
+		}else{
+			return true;
+		}
+	}
 	
 }
