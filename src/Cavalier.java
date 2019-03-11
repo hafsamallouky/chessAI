@@ -1,3 +1,6 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 public class Cavalier extends Piece {
 
@@ -22,6 +25,21 @@ public class Cavalier extends Piece {
 		}else{
 			System.out.println("Déplacement impossible");
 		}
+	}
+
+	public ArrayList<Pair<Integer, Integer>> deplacementPossible(){
+		System.out.println("eoufsdgusodfgsiudgfsiudgfiusdgiufsgdsiugfiusdgfisgifsug");
+		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if((Math.abs(i - x) == 2 && Math.abs(j - y) == 1) ||
+				(Math.abs(i - x) == 1 && Math.abs(j - y) == 2)	){
+					liste.add(new Pair(i,j));
+				}
+			}
+		}
+
+		return liste;
 	}
 
 }

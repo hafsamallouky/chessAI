@@ -1,3 +1,6 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 public class Piece {
 	protected int x;
@@ -12,6 +15,11 @@ public class Piece {
 
 	public void deplacement(int destX, int destY){
 		System.out.println("Erreur");
+	}
+
+	public ArrayList<Pair<Integer, Integer>> deplacementPossible(){
+		System.out.println("Erreur");
+		return null;
 	}
 	
 }

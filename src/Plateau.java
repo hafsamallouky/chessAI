@@ -1,13 +1,17 @@
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+
 public class Plateau {
 	public static final int COTE = 8;
 	private static Case[][] tabCase;
+	public static ArrayList<Pair<Integer, Integer>> liste;
 	
 	public Plateau() {
 		tabCase = new Case[COTE][COTE];
 		for(int i = 0; i < COTE; i++) {
 			for(int j=0; j < COTE; j++) {
 				tabCase[i][j] = new Case(i, j, _initPlateau(i,j));
-				
 			}
 		}
 	}
@@ -46,7 +50,9 @@ public class Plateau {
 
 	//Renvoie la piece selectionnée par le clique de la souris (ou null si pas de piece)
 	public Piece selectionPiece(int x, int y){
-		return tabCase[x][y].getPiece();
+		Piece piece = tabCase[x][y].getPiece();
+		liste = piece.deplacementPossible();
+		return piece;
 	}
 
 	public void deplacerDonnee(int x, int y, int destX, int destY, Piece piece){
