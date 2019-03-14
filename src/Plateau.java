@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Plateau {
 	public static final int COTE = 8;
+	//Liste des 64 cases du plateau
 	public static Case[][] tabCase;
+	//Liste des deplacement possibles pour une piece donnée (peut etre deplacer la variable ?)
 	public static ArrayList<Pair<Integer, Integer>> liste;
 	
 	public Plateau() {

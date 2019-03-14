@@ -60,7 +60,11 @@ public class ControlleurPlateau implements Initializable {
 			x = liste.get(i).getKey();
 			y = liste.get(i).getValue();
 			tabChemin[x][y] = new Rectangle(x*64, y*64, 64,64);
-			tabChemin[x][y].setFill(new ImagePattern(new Image("jaune.png")));
+			if(Plateau.tabCase[x][y].getPiece() != null) {
+				tabChemin[x][y].setFill(new ImagePattern(new Image("rouge.png")));
+			}else{
+				tabChemin[x][y].setFill(new ImagePattern(new Image("jaune.png")));
+			}
 			root.getChildren().add(tabChemin[x][y]);
 		}
 	}
@@ -69,6 +73,7 @@ public class ControlleurPlateau implements Initializable {
 		root.getChildren().remove(tabPiece[x][y]);
 	}
 
+	//Retire l'affichage du chemin en jaune
 	public void retirerChemin(){
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
@@ -79,6 +84,7 @@ public class ControlleurPlateau implements Initializable {
 		}
 	}
 
+	//Selectionne une piece ou la deplace si une piece est deja selectionnée
 	public void click(double x, double y){
 		if(selection == null){
 			selection = Jeu.plateau.selectionPiece((int)(x/64), (int)(y/64));

@@ -10,20 +10,17 @@ public class Cavalier extends Piece {
 	}
 
 	public void deplacement(int destX, int destY) {
-		if (destX == x && destY == y){
-			return;
-		}
-		//Deplacement cancer :(
-		if((Math.abs(destX - x) == 2 && Math.abs(destY - y) == 1) ||
-			(Math.abs(destX - x) == 1 && Math.abs(destY - y) == 2)	){
-			//Deplacement possible
-			Jeu.controlleurPlateau.enleverPiece(x,y);
-			Jeu.controlleurPlateau.ajouterPiece(destX,destY,"cavalier",joueur);
-			Jeu.plateau.deplacerDonnee(x,y,destX,destY,this);
-			this.x = destX;
-			this.y = destY;
-		}else{
-			System.out.println("Déplacement impossible");
+		for(int i = 0; i < Plateau.liste.size(); i++){
+			if(Plateau.liste.get(i).getKey() == destX && Plateau.liste.get(i).getValue() == destY){
+				//Deplacement possible
+				Jeu.controlleurPlateau.enleverPiece(destX,destY);
+				Jeu.controlleurPlateau.enleverPiece(x,y);
+				Jeu.controlleurPlateau.ajouterPiece(destX,destY,"cavalier",joueur);
+				Jeu.plateau.deplacerDonnee(x,y,destX,destY,this);
+				this.x = destX;
+				this.y = destY;
+				break;
+			}
 		}
 	}
 
@@ -33,7 +30,7 @@ public class Cavalier extends Piece {
 			for(int j = 0; j < 8; j++){
 				if(((Math.abs(i - x) == 2 && Math.abs(j - y) == 1) ||
 				(Math.abs(i - x) == 1 && Math.abs(j - y) == 2))
-				&& !caseOccupee(i,j,joueur)){
+				&& (!caseOccupee(i,j,joueur) || estMangeable(i,j,joueur))){
 					liste.add(new Pair(i,j));
 				}
 			}

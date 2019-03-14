@@ -30,6 +30,14 @@ public class Piece {
 		}
 	}
 
+	public boolean estMangeable(int x, int y, int joueur){
+		if(Plateau.tabCase[x][y].getPiece().joueur == joueur){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 	public boolean trajectoireOccupee(int y, int x, int destY, int destX){
 		//deplacement en ligne droite
 		//N, S, E, W
