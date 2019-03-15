@@ -29,13 +29,13 @@ public class Pion extends Piece{
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				//Cas du joueur blanc (les pions vont vers le bas)
-				if(((joueur == 0 && i == x && ( j == y+1 || (j == y+2 && y == 1)))&& !caseOccupee(i,j,joueur))
+				if(((joueur == 0 && i == x && ( j == y+1 || (j == y+2 && y == 1 && !trajectoireOccupee(x,y,i,j))))&& !caseOccupee(i,j,joueur))
 					||	(joueur == 0 && (i == x+1 || i == x-1) && j == y+1 && caseOccupee(i,j,joueur) && estMangeable(i,j,joueur))){
 					liste.add(new Pair(i,j));
 				}
 
 				//Cas du joueur noir (les pions vont vers le haut)
-				if(((joueur == 1 && i == x && ( j == y-1 || (j == y-2 && y == 6)))&& !caseOccupee(i,j,joueur))
+				if(((joueur == 1 && i == x && ( j == y-1 || (j == y-2 && y == 6 && !trajectoireOccupee(x,y,i,j))))&& !caseOccupee(i,j,joueur))
 					|| (joueur == 1 && (i == x+1 || i == x-1) && j == y-1 && caseOccupee(i,j,joueur) && estMangeable(i,j,joueur))){
 					liste.add(new Pair(i,j));
 				}
