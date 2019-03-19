@@ -17,6 +17,11 @@ public class Piece {
 		System.out.println("Erreur");
 	}
 
+	public boolean atteindre(int destX, int destY){
+		//System.out.println("erreur");
+		return false;
+	}
+
 	public ArrayList<Pair<Integer, Integer>> deplacementPossible(){
 		System.out.println("Erreur");
 		return null;
@@ -39,12 +44,14 @@ public class Piece {
 	}
 
 	public boolean trajectoireOccupee(int y, int x, int destY, int destX){
+		System.out.println("trajectoire de " + x + "/" + y + " a " + destX + "/" + destY);
 		//deplacement en ligne droite
 		//N, S, E, W
 		if(y == destY){
 			if(x < destX){
 				for(int i = destX; i>x; i--){
 					if(Plateau.tabCase[y][i].getPiece() != null) {
+						System.out.println("occupe en " + y + " / " + i);
 						return true;
 					}
 				}
@@ -95,6 +102,22 @@ public class Piece {
 			for(int cpt = 1; cpt < (x-destX); cpt ++){
 				if(Plateau.tabCase[y-cpt][x-cpt].getPiece() != null){
 					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean estEchec(int destX, int destY, int joueur){
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++){
+				if(Plateau.tabCase[i][j].getPiece() != null
+				&& Plateau.tabCase[i][j].getPiece().joueur != joueur){
+					if(joueur == 0 && Plateau.tabCase[i][j].getPiece().atteindre(Plateau.roiBlanc.x, Plateau.roiBlanc.y)){
+						return true;
+					}else if(joueur == 1 && Plateau.tabCase[i][j].getPiece().atteindre(Plateau.roiNoir.x, Plateau.roiNoir.y)){
+						return true;
+					}
 				}
 			}
 		}

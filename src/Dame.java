@@ -19,17 +19,26 @@ public class Dame extends Piece {
 				Jeu.plateau.deplacerDonnee(x,y,destX,destY,this);
 				this.x = destX;
 				this.y = destY;
+				Jeu.plateau.finTour();
 				break;
 			}
 		}
 	}
+
+	/*public boolean atteindre(int destX, int destY){
+		if(((destX == x || destY == y) || (Math.abs(destX - x) == Math.abs(destY - y)))
+		&& !trajectoireOccupee(destY, destX, x, y)){
+			return true;
+		}
+		return false;
+	}*/
 
 	public ArrayList<Pair<Integer, Integer>> deplacementPossible() {
 		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if(((i == x || j == y) || (Math.abs(i - x) == Math.abs(j - y))) && (!caseOccupee(i,j,joueur)
-						|| estMangeable(i,j,joueur)) && !trajectoireOccupee(x,y,i,j)){
+						|| estMangeable(i,j,joueur)) && !trajectoireOccupee(x,y,i,j) && !estEchec(i,j,joueur)){
 					liste.add(new Pair(i,j));
 				}
 			}

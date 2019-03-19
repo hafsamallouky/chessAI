@@ -19,6 +19,7 @@ public class Roi extends Piece{
 				Jeu.plateau.deplacerDonnee(x,y,destX,destY,this);
 				this.x = destX;
 				this.y = destY;
+				Jeu.plateau.finTour();
 				break;
 			}
 		}
