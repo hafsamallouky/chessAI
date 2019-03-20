@@ -25,13 +25,13 @@ public class Dame extends Piece {
 		}
 	}
 
-	/*public boolean atteindre(int destX, int destY){
+	public boolean atteindre(int destX, int destY){
 		if(((destX == x || destY == y) || (Math.abs(destX - x) == Math.abs(destY - y)))
 		&& !trajectoireOccupee(destY, destX, x, y)){
 			return true;
 		}
 		return false;
-	}*/
+	}
 
 	public ArrayList<Pair<Integer, Integer>> deplacementPossible() {
 		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
