@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Tour extends Piece{
 
-	public Tour(int x, int y, int joueur) {
-		super(x,y,joueur);
+	public Tour(int x, int y, int joueur, Plateau plateau) {
+		super(x,y,joueur, plateau);
 		Jeu.controlleurPlateau.ajouterPiece(x,y,"tour", joueur);
+	}
+
+	public Piece copier(Plateau plateau){
+		return new Tour(x,y,joueur,plateau);
 	}
 
 

@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Pion extends Piece{
 
-	public Pion(int x, int y, int joueur) {
-		super(x, y, joueur);
+	public Pion(int x, int y, int joueur, Plateau plateau) {
+		super(x, y, joueur, plateau);
 		Jeu.controlleurPlateau.ajouterPiece(x,y,"pion", joueur);
+	}
+
+	public Piece copier(Plateau plateau){
+		return new Pion(x,y,joueur, plateau);
 	}
 
 	public void deplacement(int destX, int destY){

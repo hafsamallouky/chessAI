@@ -28,7 +28,6 @@ public class ControlleurPlateau implements Initializable {
 		selection = null;
 
 		root.setOnMouseClicked(event -> {
-			//System.out.println("x : " + (int)event.getX()/64 + " y :" + (int)event.getY()/64);
 			click(event.getX(), event.getY());
 		});
 
@@ -60,7 +59,7 @@ public class ControlleurPlateau implements Initializable {
 			x = liste.get(i).getKey();
 			y = liste.get(i).getValue();
 			tabChemin[x][y] = new Rectangle(x*64, y*64, 64,64);
-			if(Plateau.tabCase[x][y].getPiece() != null) {
+			if(Jeu.plateau.tabCase[x][y].getPiece() != null) {
 				tabChemin[x][y].setFill(new ImagePattern(new Image("rouge.png")));
 			}else{
 				tabChemin[x][y].setFill(new ImagePattern(new Image("jaune.png")));

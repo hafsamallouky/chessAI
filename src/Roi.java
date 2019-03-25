@@ -4,9 +4,18 @@ import java.util.ArrayList;
 
 public class Roi extends Piece{
 
-	public Roi(int x, int y, int joueur) {
-		super(x, y, joueur);
+	public Roi(int x, int y, int joueur, Plateau plateau) {
+		super(x, y, joueur, plateau);
 		Jeu.controlleurPlateau.ajouterPiece(x,y,"roi", joueur);
+	}
+
+	public Piece copier(Plateau plateau){
+		if(joueur == 0){
+			plateau.roiBlanc = this;
+		}else{
+			plateau.roiNoir = this;
+		}
+		return new Roi(x,y,joueur, plateau);
 	}
 
 	public void deplacement(int destX, int destY) {

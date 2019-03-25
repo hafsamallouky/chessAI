@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Fou extends Piece{
 
-	public Fou(int x, int y, int joueur) {
-		super(x, y, joueur);
+	public Fou(int x, int y, int joueur, Plateau plateau) {
+		super(x, y, joueur, plateau);
 		Jeu.controlleurPlateau.ajouterPiece(x,y,"fou", joueur);
+	}
+
+	public Piece copier(Plateau plateau){
+		return new Fou(x,y,joueur, plateau);
 	}
 
 	public void deplacement(int destX, int destY) {

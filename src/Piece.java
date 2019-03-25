@@ -6,11 +6,18 @@ public class Piece {
 	protected int x;
 	protected int y;
 	protected int joueur;
+	protected Plateau plateau;
 	
-	public Piece(int x, int y, int joueur) {
+	public Piece(int x, int y, int joueur, Plateau plateau) {
 		this.x = x;
 		this.y = y;
 		this.joueur = joueur;
+		this.plateau = plateau;
+	}
+
+	public Piece copier(Plateau plateau){
+		System.out.println("Erreur");
+		return null;
 	}
 
 	public void deplacement(int destX, int destY){
@@ -28,7 +35,7 @@ public class Piece {
 	}
 
 	public boolean caseOccupee(int x, int y, int joueur){
-		if(Plateau.tabCase[x][y].getPiece() == null){
+		if(Jeu.plateau.tabCase[x][y].getPiece() == null){
 			return false;
 		}else{
 			return true;
@@ -36,7 +43,7 @@ public class Piece {
 	}
 
 	public boolean estMangeable(int x, int y, int joueur){
-		if(Plateau.tabCase[x][y].getPiece().joueur == joueur){
+		if(Jeu.plateau.tabCase[x][y].getPiece().joueur == joueur){
 			return false;
 		}else{
 			return true;
@@ -49,13 +56,13 @@ public class Piece {
 		if(y == destY){
 			if(x < destX){
 				for(int i = destX-1; i>x; i--){
-					if(Plateau.tabCase[y][i].getPiece() != null) {
+					if(Jeu.plateau.tabCase[y][i].getPiece() != null) {
 						return true;
 					}
 				}
 			}else if(x > destX){
 				for(int i = destX+1; i<x; i++){
-					if(Plateau.tabCase[y][i].getPiece() != null) {
+					if(Jeu.plateau.tabCase[y][i].getPiece() != null) {
 						return true;
 					}
 				}
@@ -63,13 +70,13 @@ public class Piece {
 		}else if(x == destX){
 			if(y < destY){
 				for(int i = destY-1; i>y; i--){
-					if(Plateau.tabCase[i][x].getPiece() != null) {
+					if(Jeu.plateau.tabCase[i][x].getPiece() != null) {
 						return true;
 					}
 				}
 			}else if(y > destY){
 				for(int i = destY+1; i<y; i++){
-					if(Plateau.tabCase[i][x].getPiece() != null) {
+					if(Jeu.plateau.tabCase[i][x].getPiece() != null) {
 						return true;
 					}
 				}
@@ -80,25 +87,25 @@ public class Piece {
 		//NW, SW, SE, NE
 		if(destX > x && destY > y){
 			for(int cpt = 1; cpt < (destX-x); cpt ++){
-				if(Plateau.tabCase[y+cpt][x+cpt].getPiece() != null){
+				if(Jeu.plateau.tabCase[y+cpt][x+cpt].getPiece() != null){
 					return true;
 				}
 			}
 		}else if(destX > x && destY < y){
 			for(int cpt = 1; cpt < (destX-x); cpt ++){
-				if(Plateau.tabCase[y-cpt][x+cpt].getPiece() != null){
+				if(Jeu.plateau.tabCase[y-cpt][x+cpt].getPiece() != null){
 					return true;
 				}
 			}
 		}else if(destX < x && destY > y){
 			for(int cpt = 1; cpt < (x-destX); cpt ++){
-				if(Plateau.tabCase[y+cpt][x-cpt].getPiece() != null){
+				if(Jeu.plateau.tabCase[y+cpt][x-cpt].getPiece() != null){
 					return true;
 				}
 			}
 		}else if(destX < x && destY < y){
 			for(int cpt = 1; cpt < (x-destX); cpt ++){
-				if(Plateau.tabCase[y-cpt][x-cpt].getPiece() != null){
+				if(Jeu.plateau.tabCase[y-cpt][x-cpt].getPiece() != null){
 					return true;
 				}
 			}
@@ -106,20 +113,27 @@ public class Piece {
 		return false;
 	}
 
-	public boolean estEchec(int destX, int destY, int joueur){
+
+	public boolean estEchec(int joueur){
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++){
-				if(Plateau.tabCase[i][j].getPiece() != null
-				&& Plateau.tabCase[i][j].getPiece().joueur != joueur){
-					if(joueur == 0 && Plateau.tabCase[i][j].getPiece().atteindre(Plateau.roiBlanc.x, Plateau.roiBlanc.y)){
+				if(Jeu.plateau.tabCase[i][j].getPiece() != null
+				&& Jeu.plateau.tabCase[i][j].getPiece().joueur != joueur){
+					if(joueur == 0 && Jeu.plateau.tabCase[i][j].getPiece().atteindre(Jeu.plateau.roiBlanc.x, Jeu.plateau.roiBlanc.y)){
 						return true;
-					}else if(joueur == 1 && Plateau.tabCase[i][j].getPiece().atteindre(Plateau.roiNoir.x, Plateau.roiNoir.y)){
+					}else if(joueur == 1 && Jeu.plateau.tabCase[i][j].getPiece().atteindre(Jeu.plateau.roiNoir.x, Jeu.plateau.roiNoir.y)){
 						return true;
 					}
 				}
 			}
 		}
 		return false;
+	}
+
+	public boolean deplacementEchec(int depX, int depY, int destX, int destY, int joueur, Piece piece){
+		Plateau plateau = new Plateau(Jeu.plateau);
+		plateau.deplacerDonnee(depX, depY, destX, destY, piece);
+		return plateau.estEchec(joueur);
 	}
 	
 }

@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Dame extends Piece {
 
-	public Dame(int x, int y, int joueur) {
-		super(x, y, joueur);
+	public Dame(int x, int y, int joueur, Plateau plateau) {
+		super(x, y, joueur, plateau);
 		Jeu.controlleurPlateau.ajouterPiece(x,y,"dame", joueur);
+	}
+
+	public Piece copier(Plateau plateau){
+		return new Dame(x,y,joueur, plateau);
 	}
 
 	public void deplacement(int destX, int destY) {
@@ -38,8 +42,9 @@ public class Dame extends Piece {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if(((i == x || j == y) || (Math.abs(i - x) == Math.abs(j - y))) && (!caseOccupee(i,j,joueur)
-						|| estMangeable(i,j,joueur)) && !trajectoireOccupee(x,y,i,j) && !estEchec(i,j,joueur)){
-					liste.add(new Pair(i,j));
+						|| estMangeable(i,j,joueur)) && !trajectoireOccupee(x,y,i,j)){
+					//deplacementEchec(x, y, i, j, joueur, this);
+					liste.add(new Pair(i, j));
 				}
 			}
 		}
