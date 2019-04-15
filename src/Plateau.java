@@ -7,13 +7,13 @@ public class Plateau {
 	//Liste des 64 cases du plateau
 	public Case[][] tabCase;
 	//Liste des deplacement possibles pour une piece donnée (peut etre deplacer la variable ?)
-	public static ArrayList<Pair<Integer, Integer>> liste;
+	public ArrayList<Pair<Integer, Integer>> liste;
 	//Tour de jeu
-	public static int tourJoueur = 0;
+	public int tourJoueur = 0;
 	//Roi noir et blanc
 	public Roi roiNoir;
 	public Roi roiBlanc;
-	
+
 	public Plateau(Plateau plateau) {
 		//Cas du plateau originel
 		tabCase = new Case[COTE][COTE];
@@ -24,6 +24,7 @@ public class Plateau {
 				}
 			}
 		}else{
+			//Copie d'un plateau existant
 			for(int i = 0; i < 8; i++){
 				for(int j = 0; j < 8; j++){
 					if(plateau.tabCase[i][j].getPiece() == null) {
@@ -31,6 +32,21 @@ public class Plateau {
 					}else{
 						this.tabCase[i][j] = new Case(i, j, plateau.tabCase[i][j].getPiece().copier(this));
 					}
+				}
+			}
+			roiNoir = (Roi)(this.tabCase[plateau.roiNoir.x][plateau.roiNoir.y]).getPiece();
+			roiBlanc = (Roi)(this.tabCase[plateau.roiBlanc.x][plateau.roiBlanc.y]).getPiece();
+			tourJoueur = plateau.tourJoueur;
+
+		}
+	}
+
+	//Set l'appartenance des premieres pieces au plateau principal
+	public void appartenancePiece(){
+		for(int i = 0; i < COTE; i++){
+			for(int j = 0; j < COTE; j++){
+				if(tabCase[i][j].getPiece() != null){
+					tabCase[i][j].getPiece().plateau = this;
 				}
 			}
 		}
@@ -49,7 +65,7 @@ public class Plateau {
 			case 5 : return new Fou(x,y,0, Jeu.plateau);
 			case 6 : return new Cavalier(x,y,0, Jeu.plateau);
 			case 7 : return new Tour(x,y,0, Jeu.plateau);
-			case 8 : case 9 : case 10 : case 11 : case 12 : case 13 : case 14 : case 15 : 
+			case 8 : case 9 : case 10 : case 11 : case 12 : case 13 : case 14 : case 15 :
 				return new Pion(x,y,0, Jeu.plateau);
 			case 48 : case 49 : case 50 : case 51 : case 52 : case 53 : case 54 : case 55 :
 				return new Pion(x,y,1, Jeu.plateau);
@@ -68,7 +84,7 @@ public class Plateau {
 		return piece;
 	}
 
-	//Renvoie la piece selectionnée par le clique de la souris (ou null si pas de piece ou piece de l'autre joueur)
+	//Renvoie la piece selectionnée par le click de la souris (ou null si pas de piece ou piece de l'autre joueur)
 	public Piece selectionPiece(int x, int y){
 		Piece piece = tabCase[x][y].getPiece();
 		if(piece != null && piece.joueur == tourJoueur) {
@@ -87,8 +103,20 @@ public class Plateau {
 	public void finTour(){
 		if(tourJoueur == 1){
 			tourJoueur = 0;
+			if(estEchec(0)){
+				System.out.println("blanc est echec");
+				if(estMat(0)){
+					System.out.println("le joueur blanc a perdu");
+				}
+			}
 		}else{
 			tourJoueur = 1;
+			if(estEchec(1)){
+				System.out.println("noir est echec");
+				if(estMat(1)){
+					System.out.println("le joueur noir a perdu");
+				}
+			}
 		}
 	}
 
@@ -106,5 +134,20 @@ public class Plateau {
 			}
 		}
 		return false;
+	}
+
+	public boolean estMat(int joueur){
+		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if(tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
+					liste = tabCase[i][j].getPiece().deplacementPossible();
+					if (liste.size() != 0) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

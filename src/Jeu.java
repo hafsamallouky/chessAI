@@ -13,6 +13,7 @@ public class Jeu extends Application{
 		Parent root = fxmlLoader.load(getClass().getResource("plateauVue.fxml").openStream());
 		controlleurPlateau = (ControlleurPlateau) fxmlLoader.getController();
 		plateau = new Plateau(null);
+		plateau.appartenancePiece();
 
 		primaryStage.setTitle("ChessAI");
 		primaryStage.setScene(new Scene(root));

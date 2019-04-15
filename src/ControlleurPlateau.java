@@ -83,17 +83,18 @@ public class ControlleurPlateau implements Initializable {
 		}
 	}
 
+
 	//Selectionne une piece ou la deplace si une piece est deja selectionnée
 	public void click(double x, double y){
 		if(selection == null){
 			selection = Jeu.plateau.selectionPiece((int)(x/64), (int)(y/64));
 			if(selection != null) {
-				ajouterChemin(Plateau.liste);
+				ajouterChemin(Jeu.plateau.liste);
 			}
 		}else{
 			selection.deplacement((int)(x/64), (int)(y/64));
 			retirerChemin();
-			Plateau.liste = null;
+			Jeu.plateau.liste = null;
 			selection = null;
 		}
 	}
