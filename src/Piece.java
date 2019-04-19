@@ -34,6 +34,10 @@ public class Piece {
 		return null;
 	}
 
+	public double heuristiquePiece(){
+		return 0;
+	}
+
 	public boolean caseOccupee(int x, int y, int joueur){
 		if(Jeu.plateau.tabCase[x][y].getPiece() == null){
 			return false;

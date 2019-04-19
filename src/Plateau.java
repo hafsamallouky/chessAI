@@ -101,6 +101,7 @@ public class Plateau {
 
 	//Rajouter le check de fin de jeu ici
 	public void finTour(){
+		System.out.println("h : " + heurisique(tourJoueur));
 		if(tourJoueur == 1){
 			tourJoueur = 0;
 			if(estEchec(0)){
@@ -149,5 +150,17 @@ public class Plateau {
 			}
 		}
 		return true;
+	}
+
+	public double heurisique(int joueur){
+		double res = 0;
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				if(tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
+					res += tabCase[i][j].getPiece().heuristiquePiece();
+				}
+			}
+		}
+		return res;
 	}
 }
