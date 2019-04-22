@@ -1,5 +1,6 @@
 import javafx.util.Pair;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 
 public class Plateau {
@@ -155,6 +156,8 @@ public class Plateau {
 		return true;
 	}
 
+	/*==================== IA ====================*/
+
 	public double heuristique(int joueur){
 		double res = 0;
 		for(int i = 0; i < 8; i++){
@@ -169,9 +172,25 @@ public class Plateau {
 		return res;
 	}
 
-	public void minmax(Plateau plateau, int profondeur){
-
+	public void origineMinMax(Plateau plateau, int profondeur){
+		StructPlateau root = new StructPlateau(null, 0,0,0,0, plateau, null, 0);
+		root.peuplerFils();
+		minMax(root, profondeur);
+		System.out.println("ofisdh");
 	}
+
+	public void minMax(StructPlateau structPlateau, int profondeur){
+		if(profondeur == 0){
+			structPlateau.heuristique = structPlateau.plateau.heuristique(structPlateau.joueur);
+		}else{
+			for(int i = 0; i < structPlateau.fils.size(); i++){
+				//structPlateau.fils.get(i).peuplerFils();
+				minMax(structPlateau.fils.get(i), profondeur-1);
+			}
+		}
+	}
+
+
 
 	public int maxi(int niveau, Plateau plateau) {
 		ArrayList<Pair<Integer, Integer>> dep;
@@ -211,14 +230,57 @@ public class Plateau {
 		return 0;
 	}
 
-	public int mini(int niveau, Plateau plateau){
-		if(niveau < 3){
+	class StructPlateau{
+		Piece piece;
+		Pair<Integer, Integer> depart;
+		Pair<Integer, Integer> arrive;
+		Plateau plateau;
+		StructPlateau pere;
+		ArrayList<StructPlateau> fils;
+		double heuristique;
+		int joueur;
 
-		}else{
-
+		public StructPlateau(Piece piece, int depX, int depY, int arrX, int arrY, Plateau plateau, StructPlateau pere, int joueur){
+			this.piece = piece;
+			this.depart = new Pair<>(depX, depY);
+			this.arrive = new Pair<>(arrX, arrY);
+			this.plateau = plateau;
+			this.pere = pere;
+			heuristique = -99;
+			fils = new ArrayList<>();
+			this.joueur = joueur;
 		}
-		return 0;
+
+		public void peuplerFils(){
+			ArrayList<Pair<Integer, Integer>> listeDep;
+			int joueurAdverse;
+			if(joueur == 1){
+				joueurAdverse = 0;
+			}else{
+				joueurAdverse = 1;
+			}
+
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+					if (tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
+						listeDep = tabCase[i][j].getPiece().deplacementPossible();
+						for (int k = 0; k < listeDep.size(); k++) {
+							this.fils.add(
+									new StructPlateau(tabCase[i][j].getPiece(), i, j,
+											listeDep.get(k).getKey(), listeDep.get(k).getValue(),
+											new Plateau(this.plateau),
+											this, joueurAdverse)
+							);
+							fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece().x = listeDep.get(k).getKey();
+							fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece().y = listeDep.get(k).getValue();
+							fils.get(fils.size() - 1).plateau.deplacerDonnee(i, j, listeDep.get(k).getKey(), listeDep.get(k).getValue(), fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece());
+						}
+					}
+				}
+			}
+		}
 	}
+
 
 
 }
