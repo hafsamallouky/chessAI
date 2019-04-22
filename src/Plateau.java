@@ -23,6 +23,8 @@ public class Plateau {
 					tabCase[i][j] = new Case(i, j, _initPlateau(i, j));
 				}
 			}
+
+
 		}else{
 			//Copie d'un plateau existant
 			for(int i = 0; i < 8; i++){
@@ -101,7 +103,7 @@ public class Plateau {
 
 	//Rajouter le check de fin de jeu ici
 	public void finTour(){
-		System.out.println("h : " + heurisique(tourJoueur));
+		System.out.println("h : " + heuristique(tourJoueur));
 		if(tourJoueur == 1){
 			tourJoueur = 0;
 			if(estEchec(0)){
@@ -110,6 +112,7 @@ public class Plateau {
 					System.out.println("le joueur blanc a perdu");
 				}
 			}
+			maxi(0, Jeu.plateau);
 		}else{
 			tourJoueur = 1;
 			if(estEchec(1)){
@@ -152,15 +155,70 @@ public class Plateau {
 		return true;
 	}
 
-	public double heurisique(int joueur){
+	public double heuristique(int joueur){
 		double res = 0;
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				if(tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
 					res += tabCase[i][j].getPiece().heuristiquePiece();
+				}else if (tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur != joueur){
+					res -= tabCase[i][j].getPiece().heuristiquePiece();
 				}
 			}
 		}
 		return res;
 	}
+
+	public void minmax(Plateau plateau, int profondeur){
+
+	}
+
+	public int maxi(int niveau, Plateau plateau) {
+		ArrayList<Pair<Integer, Integer>> dep;
+		Plateau plateautmp;
+		double heuristique = -99;
+		Pair<Integer, Integer> depart = new Pair<>(-1, -1);
+		Pair<Integer, Integer> arrive = new Pair<>(-1, -1);
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == 0) {
+					dep = tabCase[i][j].getPiece().deplacementPossible();
+					for (int k = 0; k < dep.size(); k++) {
+						plateautmp = new Plateau(plateau);
+						plateautmp.tabCase[i][j].getPiece().x = dep.get(k).getKey();
+						plateautmp.tabCase[i][j].getPiece().y = dep.get(k).getValue();
+						plateautmp.deplacerDonnee(i, j, dep.get(k).getKey(), dep.get(k).getValue(), plateautmp.tabCase[i][j].getPiece());
+						if (estEchec(1)) {
+							if (estMat(1)) {
+								plateau.liste.add(new Pair<>(dep.get(k).getKey(), dep.get(k).getValue()));
+								plateau.tabCase[i][j].getPiece().deplacement(dep.get(k).getKey(), dep.get(k).getValue());
+								return 0;
+							}
+						}
+						if (heuristique < plateautmp.heuristique(0)) {
+							depart = new Pair<>(i,j);
+							arrive = new Pair<>(dep.get(k).getKey(), dep.get(k).getValue());
+							heuristique = plateautmp.heuristique(0);
+						}
+					}
+				}
+			}
+		}
+		plateau.liste = new ArrayList<Pair<Integer, Integer>>();
+		plateau.liste.add(new Pair<>(arrive.getKey(), arrive.getValue()));
+		plateau.tabCase[depart.getKey()][depart.getValue()].getPiece().deplacement(arrive.getKey(), arrive.getValue());
+		return 0;
+	}
+
+	public int mini(int niveau, Plateau plateau){
+		if(niveau < 3){
+
+		}else{
+
+		}
+		return 0;
+	}
+
+
 }
