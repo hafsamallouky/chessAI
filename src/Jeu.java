@@ -14,7 +14,7 @@ public class Jeu extends Application{
 		controlleurPlateau = (ControlleurPlateau) fxmlLoader.getController();
 		plateau = new Plateau(null);
 		plateau.appartenancePiece();
-		plateau.origineMinMax(plateau, 1);
+		plateau.origineMinMax(plateau, 3);
 
 		primaryStage.setTitle("ChessAI");
 		primaryStage.setScene(new Scene(root));

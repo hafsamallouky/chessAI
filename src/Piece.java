@@ -29,7 +29,7 @@ public class Piece {
 		return false;
 	}
 
-	public ArrayList<Pair<Integer, Integer>> deplacementPossible(){
+	public ArrayList<Pair<Integer, Integer>> deplacementPossible(Plateau plat){
 		System.out.println("Erreur");
 		return null;
 	}

@@ -91,7 +91,7 @@ public class Plateau {
 	public Piece selectionPiece(int x, int y){
 		Piece piece = tabCase[x][y].getPiece();
 		if(piece != null && piece.joueur == tourJoueur) {
-			liste = piece.deplacementPossible();
+			liste = piece.deplacementPossible(this);
 			return piece;
 		}
 		return null;
@@ -113,7 +113,7 @@ public class Plateau {
 					System.out.println("le joueur blanc a perdu");
 				}
 			}
-			maxi(0, Jeu.plateau);
+			//maxi(0, Jeu.plateau);
 		}else{
 			tourJoueur = 1;
 			if(estEchec(1)){
@@ -146,7 +146,7 @@ public class Plateau {
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				if(tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
-					liste = tabCase[i][j].getPiece().deplacementPossible();
+					liste = tabCase[i][j].getPiece().deplacementPossible(this);
 					if (liste.size() != 0) {
 						return false;
 					}
@@ -174,18 +174,29 @@ public class Plateau {
 
 	public void origineMinMax(Plateau plateau, int profondeur){
 		StructPlateau root = new StructPlateau(null, 0,0,0,0, plateau, null, 0);
-		root.peuplerFils();
-		minMax(root, profondeur);
-		System.out.println("ofisdh");
+		root.peuplerFils(0);
+		minMax(root, profondeur, true);
+		System.out.println("loooooad");
 	}
 
-	public void minMax(StructPlateau structPlateau, int profondeur){
+	public void minMax(StructPlateau structPlateau, int profondeur, boolean max){
 		if(profondeur == 0){
 			structPlateau.heuristique = structPlateau.plateau.heuristique(structPlateau.joueur);
 		}else{
-			for(int i = 0; i < structPlateau.fils.size(); i++){
-				//structPlateau.fils.get(i).peuplerFils();
-				minMax(structPlateau.fils.get(i), profondeur-1);
+			if(max) {
+				for (int i = 0; i < structPlateau.fils.size(); i++) {
+					if(profondeur != 1) {
+						structPlateau.fils.get(i).peuplerFils(1);
+					}
+					minMax(structPlateau.fils.get(i), profondeur - 1, false);
+				}
+			}else{
+				for (int i = 0; i < structPlateau.fils.size(); i++) {
+					if(profondeur != 1) {
+						structPlateau.fils.get(i).peuplerFils(0);
+					}
+					minMax(structPlateau.fils.get(i), profondeur - 1, true);
+				}
 			}
 		}
 	}
@@ -202,7 +213,7 @@ public class Plateau {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == 0) {
-					dep = tabCase[i][j].getPiece().deplacementPossible();
+					dep = tabCase[i][j].getPiece().deplacementPossible(this);
 					for (int k = 0; k < dep.size(); k++) {
 						plateautmp = new Plateau(plateau);
 						plateautmp.tabCase[i][j].getPiece().x = dep.get(k).getKey();
@@ -251,7 +262,19 @@ public class Plateau {
 			this.joueur = joueur;
 		}
 
-		public void peuplerFils(){
+		public void remonterHeuristique(){
+
+		}
+
+		public void maximiser(){
+
+		}
+
+		public void minimiser(){
+
+		}
+
+		public void peuplerFils(int joueur){
 			ArrayList<Pair<Integer, Integer>> listeDep;
 			int joueurAdverse;
 			if(joueur == 1){
@@ -262,15 +285,15 @@ public class Plateau {
 
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
-					if (tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
-						listeDep = tabCase[i][j].getPiece().deplacementPossible();
-						for (int k = 0; k < listeDep.size(); k++) {
-							this.fils.add(
-									new StructPlateau(tabCase[i][j].getPiece(), i, j,
-											listeDep.get(k).getKey(), listeDep.get(k).getValue(),
-											new Plateau(this.plateau),
-											this, joueurAdverse)
-							);
+					if (plateau.tabCase[i][j].getPiece() != null && plateau.tabCase[i][j].getPiece().joueur == joueur) {
+						listeDep = plateau.tabCase[i][j].getPiece().deplacementPossible(plateau);
+							for (int k = 0; k < listeDep.size(); k++) {
+								this.fils.add(
+										new StructPlateau(plateau.tabCase[i][j].getPiece(), i, j,
+												listeDep.get(k).getKey(), listeDep.get(k).getValue(),
+												new Plateau(this.plateau),
+												this, joueurAdverse)
+								);
 							fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece().x = listeDep.get(k).getKey();
 							fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece().y = listeDep.get(k).getValue();
 							fils.get(fils.size() - 1).plateau.deplacerDonnee(i, j, listeDep.get(k).getKey(), listeDep.get(k).getValue(), fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece());

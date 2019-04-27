@@ -39,7 +39,7 @@ public class Fou extends Piece{
 		return false;
 	}
 
-	public ArrayList<Pair<Integer, Integer>> deplacementPossible() {
+	public ArrayList<Pair<Integer, Integer>> deplacementPossible(Plateau plat) {
 		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -53,7 +53,7 @@ public class Fou extends Piece{
 		ArrayList<Pair<Integer, Integer>> listeRMV = new ArrayList<>();
 		for(int k = 0; k < liste.size(); k++){
 			//Creation d'un autre plateau fictif sur le modele du plateau courant
-			p = new Plateau(Jeu.plateau);
+			p = new Plateau(plat);
 			//Deplacement de la piece fictive sur une case possible
 			p.tabCase[x][y].getPiece().x = liste.get(k).getKey();
 			p.tabCase[x][y].getPiece().y = liste.get(k).getValue();
