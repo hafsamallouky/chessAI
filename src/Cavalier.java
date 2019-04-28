@@ -45,7 +45,7 @@ public class Cavalier extends Piece {
 			for(int j = 0; j < 8; j++){
 				if(((Math.abs(i - x) == 2 && Math.abs(j - y) == 1) ||
 				(Math.abs(i - x) == 1 && Math.abs(j - y) == 2))
-				&& (!caseOccupee(i,j,joueur) || estMangeable(i,j,joueur))){
+				&& (!caseOccupee(i,j,joueur,plateau) || estMangeable(i,j,joueur,plateau))){
 					liste.add(new Pair(i,j));
 				}
 			}

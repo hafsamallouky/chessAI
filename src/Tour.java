@@ -44,7 +44,7 @@ public class Tour extends Piece{
 		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
 		for(int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if((i == x || j == y) && (!caseOccupee(i,j,joueur) || estMangeable(i,j,joueur)) && !trajectoireOccupee(x,y,i,j,plateau)) {
+				if((i == x || j == y) && (!caseOccupee(i,j,joueur,plateau) || estMangeable(i,j,joueur,plateau)) && !trajectoireOccupee(x,y,i,j,plateau)) {
 					liste.add(new Pair(i,j));
 				}
 			}

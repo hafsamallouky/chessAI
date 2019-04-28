@@ -47,7 +47,7 @@ public class Roi extends Piece{
 		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if(Math.abs(i  - x) <= 1 && Math.abs(j - y) <= 1 && (!caseOccupee(i,j,joueur) || estMangeable(i,j,joueur))){
+				if(Math.abs(i  - x) <= 1 && Math.abs(j - y) <= 1 && (!caseOccupee(i,j,joueur, plateau) || estMangeable(i,j,joueur, plateau))){
 					liste.add(new Pair(i,j));
 				}
 			}

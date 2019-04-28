@@ -38,16 +38,16 @@ public class Piece {
 		return 0;
 	}
 
-	public boolean caseOccupee(int x, int y, int joueur){
-		if(Jeu.plateau.tabCase[x][y].getPiece() == null){
+	public boolean caseOccupee(int x, int y, int joueur, Plateau plat){
+		if(plat.tabCase[x][y].getPiece() == null){
 			return false;
 		}else{
 			return true;
 		}
 	}
 
-	public boolean estMangeable(int x, int y, int joueur){
-		if(Jeu.plateau.tabCase[x][y].getPiece().joueur == joueur){
+	public boolean estMangeable(int x, int y, int joueur, Plateau plat){
+		if(plat.tabCase[x][y].getPiece().joueur == joueur){
 			return false;
 		}else{
 			return true;

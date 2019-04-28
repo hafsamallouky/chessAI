@@ -43,7 +43,7 @@ public class Fou extends Piece{
 		ArrayList<Pair<Integer, Integer>> liste = new ArrayList<>();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if(Math.abs(i - x) == Math.abs(j - y) && (!caseOccupee(i,j,joueur) || estMangeable(i,j,joueur)) && !trajectoireOccupee(x,y,i,j,plateau)){
+				if(Math.abs(i - x) == Math.abs(j - y) && (!caseOccupee(i,j,joueur,plateau) || estMangeable(i,j,joueur,plateau)) && !trajectoireOccupee(x,y,i,j,plateau)){
 					liste.add(new Pair(i,j));
 				}
 			}
