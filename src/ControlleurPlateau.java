@@ -138,11 +138,13 @@ public class ControlleurPlateau implements Initializable {
 				tmp = -100.0;
 			}
 			barreGauche.setProgress(Math.abs(tmp)/100);
+			barreDroite.setProgress(0);
 		}else{
 			if(tmp > 100){
 				tmp = 100.0;
 			}
 			barreDroite.setProgress(tmp/100);
+			barreGauche.setProgress(0);
 		}
 	}
 
