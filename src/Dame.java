@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Dame extends Piece {
 
 	public Dame(int x, int y, int joueur, Plateau plateau) {
-		super(x, y, joueur, plateau);
+		super(x, y, joueur, plateau,8.8);
 		if(plateau == Jeu.plateau) {
 			Jeu.controlleurPlateau.ajouterPiece(x, y, "dame", joueur);
 		}

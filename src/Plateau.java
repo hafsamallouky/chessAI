@@ -105,7 +105,6 @@ public class Plateau {
 
 	//Rajouter le check de fin de jeu ici
 	public void finTour(){
-		System.out.println("h : " + heuristique(tourJoueur));
 		if(tourJoueur == 1){
 			tourJoueur = 0;
 			if(estEchec(0)){
@@ -128,6 +127,7 @@ public class Plateau {
 				}
 			}
 		}
+
 	}
 
 	public boolean estEchec(int joueur){
@@ -169,8 +169,10 @@ public class Plateau {
 			for(int j = 0; j < 8; j++){
 				if(tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur == joueur) {
 					res += tabCase[i][j].getPiece().heuristiquePiece();
+					res += tabCase[i][j].getPiece().valeur * 4;
 				}else if (tabCase[i][j].getPiece() != null && tabCase[i][j].getPiece().joueur != joueur){
 					res -= tabCase[i][j].getPiece().heuristiquePiece();
+					res -= tabCase[i][j].getPiece().valeur * 4;
 				}
 			}
 		}
@@ -187,7 +189,7 @@ public class Plateau {
 
 	public void minMax(StructPlateau structPlateau, int profondeur, boolean max){
 		if(profondeur == 0){
-			structPlateau.heuristique = structPlateau.plateau.heuristique(structPlateau.joueur);
+			structPlateau.heuristique = structPlateau.plateau.heuristique(0);
 		}else{
 			if(max) {
 				for (int i = 0; i < structPlateau.fils.size(); i++) {
@@ -195,7 +197,7 @@ public class Plateau {
 						structPlateau.fils.get(i).peuplerFils(1);
 					}
 					if(structPlateau.fils.get(i).plateau.estEchec(1) && structPlateau.fils.get(i).plateau.estMat(1)){
-						structPlateau.fils.get(i).heuristique = 200;
+						structPlateau.fils.get(i).heuristique = 2000;
 					}else {
 						minMax(structPlateau.fils.get(i), profondeur - 1, false);
 					}
@@ -206,7 +208,7 @@ public class Plateau {
 						structPlateau.fils.get(i).peuplerFils(0);
 					}
 					if(structPlateau.fils.get(i).plateau.estEchec(0) && structPlateau.fils.get(i).plateau.estMat(0)){
-						structPlateau.fils.get(i).heuristique = -200;
+						structPlateau.fils.get(i).heuristique = -2000;
 					}else {
 						minMax(structPlateau.fils.get(i), profondeur - 1, true);
 					}

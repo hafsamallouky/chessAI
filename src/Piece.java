@@ -6,13 +6,15 @@ public class Piece {
 	protected int x;
 	protected int y;
 	protected int joueur;
+	protected double valeur;
 	protected Plateau plateau;
 	
-	public Piece(int x, int y, int joueur, Plateau plateau) {
+	public Piece(int x, int y, int joueur, Plateau plateau, double valeur) {
 		this.x = x;
 		this.y = y;
 		this.joueur = joueur;
 		this.plateau = plateau;
+		this.valeur = valeur;
 	}
 
 	public Piece copier(Plateau plateau){
