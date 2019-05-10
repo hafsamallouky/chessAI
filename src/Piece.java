@@ -8,6 +8,7 @@ public class Piece {
 	protected int joueur;
 	protected double valeur;
 	protected Plateau plateau;
+	protected String type;
 	
 	public Piece(int x, int y, int joueur, Plateau plateau, double valeur) {
 		this.x = x;

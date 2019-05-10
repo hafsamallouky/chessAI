@@ -1,9 +1,13 @@
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.lang.reflect.Array;
@@ -13,7 +17,19 @@ import java.util.ResourceBundle;
 
 public class ControlleurPlateau implements Initializable {
 	@FXML
-	Pane root;
+	Pane rootBoard;
+	@FXML
+	Button btnSortie;
+	@FXML
+	Label info;
+	@FXML
+	Label dernierDeplacement;
+	@FXML
+	Label heuristique;
+	@FXML
+	ProgressBar barreDroite;
+	@FXML
+	ProgressBar barreGauche;
 
 	public Rectangle[][] tabPiece;
 	public Rectangle[][] tabChemin;
@@ -21,14 +37,21 @@ public class ControlleurPlateau implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		BackgroundImage myBI= new BackgroundImage(new Image("damier.png",512,512,false,true),
-				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
-		root.setBackground(new Background(myBI));
+		rootBoard.setBackground(new Background(myBI));
 
 		selection = null;
 
-		root.setOnMouseClicked(event -> {
-			click(event.getX(), event.getY());
+		rootBoard.setOnMouseClicked(event -> {
+			if(event.getX() < 512 && event.getY() < 512  && event.getX() > 0 && event.getY() > 0) {
+				click(event.getX(), event.getY());
+			}
+		});
+
+		btnSortie.setOnAction(event -> {
+			Stage stage = (Stage) btnSortie.getScene().getWindow();
+			stage.close();
 		});
 
 		tabPiece = new Rectangle[8][8];
@@ -47,7 +70,7 @@ public class ControlleurPlateau implements Initializable {
 		img = new Image(urlImage);
 		tabPiece[x][y] = new Rectangle(x*64, y*64,64,64);
 		tabPiece[x][y].setFill(new ImagePattern(img));
-		root.getChildren().add(tabPiece[x][y]);
+		rootBoard.getChildren().add(tabPiece[x][y]);
 
 	}
 
@@ -64,12 +87,12 @@ public class ControlleurPlateau implements Initializable {
 			}else{
 				tabChemin[x][y].setFill(new ImagePattern(new Image("jaune.png")));
 			}
-			root.getChildren().add(tabChemin[x][y]);
+			rootBoard.getChildren().add(tabChemin[x][y]);
 		}
 	}
 
 	public void enleverPiece(int x,int y){
-		root.getChildren().remove(tabPiece[x][y]);
+		rootBoard.getChildren().remove(tabPiece[x][y]);
 	}
 
 	//Retire l'affichage du chemin en jaune
@@ -77,7 +100,7 @@ public class ControlleurPlateau implements Initializable {
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				if(tabChemin[i][j] != null){
-					root.getChildren().remove(tabChemin[i][j]);
+					rootBoard.getChildren().remove(tabChemin[i][j]);
 				}
 			}
 		}
@@ -98,4 +121,29 @@ public class ControlleurPlateau implements Initializable {
 			selection = null;
 		}
 	}
+
+	public void changerLabelInfo(String str){
+		info.setText(str);
+	}
+
+	public void changerLabelDernierDeplacement(int departY, int departX, int arriveY, int arriveX, String type){
+		dernierDeplacement.setText(type + " de " + departX + "/" + departY + " vers " + arriveX + "/" + arriveY);
+	}
+
+	public void changerLabelHeuristique(Double h){
+		Double tmp = h;
+		heuristique.setText("heuristique : " + tmp.intValue());
+		if(tmp < 0){
+			if(tmp < -100){
+				tmp = -100.0;
+			}
+			barreGauche.setProgress(Math.abs(tmp)/100);
+		}else{
+			if(tmp > 100){
+				tmp = 100.0;
+			}
+			barreDroite.setProgress(tmp/100);
+		}
+	}
+
 }

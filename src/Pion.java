@@ -6,6 +6,7 @@ public class Pion extends Piece{
 
 	public Pion(int x, int y, int joueur, Plateau plateau) {
 		super(x, y, joueur, plateau,1);
+		type = "Pion";
 		if(plateau == Jeu.plateau) {
 			Jeu.controlleurPlateau.ajouterPiece(x, y, "pion", joueur);
 		}

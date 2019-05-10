@@ -6,6 +6,7 @@ public class Tour extends Piece{
 
 	public Tour(int x, int y, int joueur, Plateau plateau) {
 		super(x,y,joueur, plateau,5.1);
+		type = "Tour";
 		if(plateau == Jeu.plateau) {
 			Jeu.controlleurPlateau.ajouterPiece(x, y, "tour", joueur);
 		}

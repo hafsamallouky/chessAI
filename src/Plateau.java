@@ -106,11 +106,10 @@ public class Plateau {
 	//Rajouter le check de fin de jeu ici
 	public void finTour(){
 		if(tourJoueur == 1){
+			Jeu.controlleurPlateau.changerLabelInfo("");
 			tourJoueur = 0;
 			if(estEchec(0)){
-				System.out.println("blanc est echec");
 				if(estMat(0)){
-					System.out.println("le joueur blanc a perdu");
 					fin = true;
 				}
 			}
@@ -119,10 +118,11 @@ public class Plateau {
 			}
 		}else{
 			tourJoueur = 1;
+			Jeu.controlleurPlateau.changerLabelHeuristique(heuristique(1));
 			if(estEchec(1)){
-				System.out.println("noir est echec");
+				Jeu.controlleurPlateau.changerLabelInfo("Echec");
 				if(estMat(1)){
-					System.out.println("le joueur noir a perdu");
+					Jeu.controlleurPlateau.changerLabelInfo("Mat");
 					fin = true;
 				}
 			}
@@ -161,7 +161,7 @@ public class Plateau {
 		return true;
 	}
 
-	/*==================== IA ====================*/
+	/*==================== debutIA ====================*/
 
 	public double heuristique(int joueur){
 		double res = 0;
@@ -217,7 +217,6 @@ public class Plateau {
 		}
 	}
 
-
 	class StructPlateau{
 		Piece piece;
 		Pair<Integer, Integer> depart;
@@ -251,6 +250,9 @@ public class Plateau {
 
 			Jeu.plateau.liste = new ArrayList<Pair<Integer, Integer>>();
 			Jeu.plateau.liste.add(tmpSP.arrive);
+			Jeu.controlleurPlateau.changerLabelDernierDeplacement(tmpSP.depart.getKey(), tmpSP.depart.getValue(),
+					tmpSP.arrive.getKey(), tmpSP.arrive.getValue(),
+					Jeu.plateau.tabCase[tmpSP.depart.getKey()][tmpSP.depart.getValue()].getPiece().type);
 			Jeu.plateau.tabCase[tmpSP.depart.getKey()][tmpSP.depart.getValue()].getPiece().deplacement(tmpSP.arrive.getKey(), tmpSP.arrive.getValue());
 		}
 
@@ -316,6 +318,7 @@ public class Plateau {
 							fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece().x = listeDep.get(k).getKey();
 							fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece().y = listeDep.get(k).getValue();
 							fils.get(fils.size() - 1).plateau.deplacerDonnee(i, j, listeDep.get(k).getKey(), listeDep.get(k).getValue(), fils.get(fils.size() - 1).plateau.tabCase[i][j].getPiece());
+
 						}
 					}
 				}
@@ -323,6 +326,6 @@ public class Plateau {
 		}
 	}
 
-
+	/*==================== finIA ====================*/
 
 }

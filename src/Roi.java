@@ -6,6 +6,7 @@ public class Roi extends Piece{
 
 	public Roi(int x, int y, int joueur, Plateau plateau) {
 		super(x, y, joueur, plateau,0);
+		type = "Roi";
 		if(plateau == Jeu.plateau) {
 			Jeu.controlleurPlateau.ajouterPiece(x, y, "roi", joueur);
 		}

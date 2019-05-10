@@ -6,6 +6,7 @@ public class Cavalier extends Piece {
 
 	public Cavalier(int x, int y, int joueur, Plateau plateau) {
 		super(x, y, joueur,plateau,3.2);
+		type = "Cavalier";
 		if(plateau == Jeu.plateau) {
 			Jeu.controlleurPlateau.ajouterPiece(x, y, "cavalier", joueur);
 		}

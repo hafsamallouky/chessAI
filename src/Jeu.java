@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Jeu extends Application{
 	public static Plateau plateau;
@@ -16,6 +17,8 @@ public class Jeu extends Application{
 		plateau.appartenancePiece();
 		plateau.origineMinMax(plateau, 3);
 
+		primaryStage.setResizable(false);
+		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setTitle("ChessAI");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
